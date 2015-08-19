@@ -1,0 +1,65 @@
+<head>
+  <title>meteor</title>
+  <meta name="viewport" content="width=device-width, user-scalable=yes">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body>
+<h1>Welcome to Meteor!</h1>
+<img id="whiteRabbitBanner">
+<p style="text-align:center; margin:0 auto 10px;">
+  <a href="http://request.whiterabbitexpress.com/?aid=mbkr" target="_blank" rel="nofollow">
+    <img id="whiteRabbitBanner">
+  </a>
+</p>
+<script>
+
+  $(function(){
+    var baseUrl = "http://banner.whiterabbitexpress.com";
+    var baseQueryUrl = baseUrl + "/banner/238857?size=";
+    window.whiteRabbitBannerSize = '';
+
+    function sizeHasUpdated(newSize, previousSize){
+      var sizeHasUpdated =  newSize !== previousSize;
+      if(sizeHasUpdated) window.whiteRabbitBannerSize = newSize;
+      return sizeHasUpdated;
+    }
+
+    function updateWhiteRabbitBanner(width) {
+      var sizeUpdated = false;
+      var shouldBeSize;
+
+      if (width < 640 && width >= 320) {
+        var shouldBeSize = 'medium';
+      } else if (width >= 640) {
+        var shouldBeSize = 'desktop';
+      } else if (width < 320) {
+        var shouldBeSize = 'mobile';
+      }
+
+      if(sizeHasUpdated(shouldBeSize, window.whiteRabbitBannerSize)){
+        var imgSrc = baseQueryUrl + window.whiteRabbitBannerSize;
+        var myImg = new Image();
+        myImg.src = imgSrc;
+        myImg.onload = function() {
+          if(this.width > 1){
+            $('#whiteRabbitBanner').attr('src', imgSrc);
+          }
+        };
+      }
+    }
+
+    updateWhiteRabbitBanner($(window).width());
+    $(window).resize(function() {
+      updateWhiteRabbitBanner($(window).width());
+    });
+  });
+
+</script>
+<style>
+  #whiteRabbitBanner {
+    width: 100%;
+    max-width: 978px;
+  }
+</style>
+</body>
